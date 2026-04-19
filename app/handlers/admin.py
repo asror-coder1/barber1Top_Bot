@@ -55,6 +55,20 @@ def get_admin_router(repository: Repository, settings: Settings) -> Router:
     async def _deny_callback(callback: CallbackQuery) -> None:
         await callback.answer("Ruxsat yo'q", show_alert=True)
 
+    async def _edit_callback_message(
+        callback: CallbackQuery,
+        text: str,
+        *,
+        reply_markup=None,
+    ) -> None:
+        message = callback.message
+        if message is None:
+            return
+        if getattr(message, "photo", None):
+            await message.edit_caption(caption=text, reply_markup=reply_markup)
+            return
+        await message.edit_text(text, reply_markup=reply_markup)
+
     async def _selected_barber_id(state: FSMContext) -> int | None:
         data = await state.get_data()
         if data.get("admin_barber_id"):
@@ -73,6 +87,10 @@ def get_admin_router(repository: Repository, settings: Settings) -> Router:
             f"Yangi mijozlar: {stats['new_customers']}\n"
             f"Bekor qilingan: {stats['cancelled_bookings']}"
         )
+
+    async def _admin_panel_keyboard():
+        pending_count = len(await repository.list_pending_barber_applications())
+        return admin_panel_keyboard(pending_barber_applications=pending_count)
 
     async def _render_revenue_text() -> str:
         stats = await repository.get_revenue_stats(now_local(repository.timezone).date())
@@ -214,7 +232,7 @@ def get_admin_router(repository: Repository, settings: Settings) -> Router:
             await _deny_message(message)
             return
         await send_optional_sticker(message, settings.admin_sticker_id)
-        await message.answer(admin_panel_text(), reply_markup=admin_panel_keyboard())
+        await message.answer(admin_panel_text(), reply_markup=await _admin_panel_keyboard())
 
     @router.message(Command("bookings"))
     async def bookings(message: Message) -> None:
@@ -293,7 +311,7 @@ def get_admin_router(repository: Repository, settings: Settings) -> Router:
             await _deny_callback(callback)
             return
         await state.clear()
-        await callback.message.edit_text(admin_panel_text(), reply_markup=admin_panel_keyboard())
+        await _edit_callback_message(callback, admin_panel_text(), reply_markup=await _admin_panel_keyboard())
         await callback.answer()
 
     @router.callback_query(F.data == "admin:dashboard")
@@ -301,7 +319,7 @@ def get_admin_router(repository: Repository, settings: Settings) -> Router:
         if not _callback_is_admin(callback):
             await _deny_callback(callback)
             return
-        await callback.message.edit_text(await _render_dashboard_text(), reply_markup=admin_panel_keyboard())
+        await callback.message.edit_text(await _render_dashboard_text(), reply_markup=await _admin_panel_keyboard())
         await callback.answer()
 
     @router.callback_query(F.data == "admin:bookings")
@@ -352,7 +370,8 @@ def get_admin_router(repository: Repository, settings: Settings) -> Router:
         if not barber:
             await callback.answer("Ariza topilmadi yoki allaqachon ko'rib chiqilgan.", show_alert=True)
             return
-        await callback.message.edit_text(
+        await _edit_callback_message(
+            callback,
             f"Ariza tasdiqlandi.\n\nBarber: <b>{barber['name']}</b>\nYo'nalish: {barber['specialty']}"
         )
         await callback.answer("Barber tasdiqlandi")

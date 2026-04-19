@@ -80,13 +80,16 @@ def barber_action_keyboard(barber_id: int) -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
-def admin_panel_keyboard() -> InlineKeyboardMarkup:
+def admin_panel_keyboard(pending_barber_applications: int = 0) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
+    barber_apps_label = "💼 Barber arizalar"
+    if pending_barber_applications > 0:
+        barber_apps_label = f"{barber_apps_label} ({pending_barber_applications})"
     buttons = [
         ("📊 Dashboard", "admin:dashboard"),
         ("📅 Bugungi navbatlar", "admin:bookings"),
         ("👥 Mijozlar", "admin:customers"),
-        ("💼 Barber arizalar", "admin:barber_apps"),
+        (barber_apps_label, "admin:barber_apps"),
         ("💰 Daromad", "admin:revenue"),
         ("⏰ Jadval", "admin:schedule"),
         ("💈 Xizmatlar", "admin:services"),
@@ -235,5 +238,17 @@ def barber_application_admin_keyboard(application_id: int) -> InlineKeyboardMark
     builder = InlineKeyboardBuilder()
     builder.button(text="Tasdiqlash", callback_data=f"adm_barber_approve:{application_id}")
     builder.button(text="Panel", callback_data="admin:panel")
+    builder.adjust(1)
+    return builder.as_markup()
+
+
+def local_barber_settings_keyboard() -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    builder.button(text="Ish vaqti", callback_data="barber_set:hours")
+    builder.button(text="Tanaffus", callback_data="barber_set:break")
+    builder.button(text="Dam olish kunlari", callback_data="barber_set:offdays")
+    builder.button(text="Yo'nalish", callback_data="barber_set:specialty")
+    builder.button(text="Telefon", callback_data="barber_set:phone")
+    builder.button(text="Bio", callback_data="barber_set:bio")
     builder.adjust(1)
     return builder.as_markup()

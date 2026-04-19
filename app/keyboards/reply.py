@@ -53,6 +53,7 @@ def barber_panel_keyboard() -> ReplyKeyboardMarkup:
         keyboard=[
             [KeyboardButton(text="📅 Mening bronlarim"), KeyboardButton(text="📈 Dashboard")],
             [KeyboardButton(text="🕒 Mening jadvalim"), KeyboardButton(text="👤 Mening profilim")],
+            [KeyboardButton(text="⚙️ Sozlamalar")],
         ],
         resize_keyboard=True,
     )

@@ -193,6 +193,7 @@ class Repository:
             await self._ensure_column(db, "barbers", "phone", "TEXT")
             await self._ensure_column(db, "barbers", "bio", "TEXT")
             await self._ensure_column(db, "barbers", "photo_file_id", "TEXT")
+            await self._ensure_column(db, "barber_applications", "photo_file_id", "TEXT")
         await self.seed_reference_data()
 
     async def _ensure_column(self, db: aiosqlite.Connection, table: str, column: str, column_type: str) -> None:
