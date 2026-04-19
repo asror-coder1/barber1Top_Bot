@@ -1,0 +1,7 @@
+aiogram==3.27.0
+aiosqlite==0.22.1
+alembic==1.16.5
+asyncpg==0.30.0
+redis==6.4.0
+SQLAlchemy==2.0.43
+tzdata==2025.2

@@ -1,0 +1,2 @@
+"""Middlewares for barber panel."""
+

@@ -1,0 +1,2 @@
+"""Keyboards for barber panel."""
+

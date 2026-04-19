@@ -1,0 +1,8 @@
+.idea
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.db
+bot.err.log
+bot.out.log
