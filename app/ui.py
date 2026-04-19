@@ -18,12 +18,63 @@ def welcome_text(shop_name: str) -> str:
     return (
         f"<b>{shop_name}</b>\n"
         "━━━━━━━━━━━━━━\n"
-        "Premium barber booking assistant\n\n"
-        "✂️ Tez bron qilish\n"
-        "🤖 AI style tavsiya\n"
-        "🎁 Bonus va sodiqlik tizimi\n"
-        "📍 Lokatsiya va narxlar\n\n"
+        "Premium barber booking assistant'ga xush kelibsiz.\n\n"
+        "<b>Mijozlar uchun:</b>\n"
+        "• ✂️ Navbat olish: xizmat, usta, sana va vaqt tanlaysiz\n"
+        "• 👨‍🦱 Usta tanlash: barberlar profilini ko'rasiz\n"
+        "• 🕒 Bo'sh vaqtlar: qaysi slotlar ochiq ekanini ko'rasiz\n"
+        "• 🤖 AI style tavsiya: selfie yuborib haircut tavsiya olasiz\n"
+        "• 🎁 Bonuslar: ballaringiz va tashriflar soni\n"
+        "• ⭐ Sharh qoldirish: xizmat haqida fikr bildirasiz\n\n"
+        "<b>Barberlar uchun:</b>\n"
+        "• 💼 Sartarosh bo'lish: ariza yuborish\n"
+        "• /barber: tasdiqlangandan keyin o'z panelingizga kirish\n"
+        "• ⚙️ Sozlamalar: ish vaqti, tanaffus, dam olish kunlari, telefon va bio'ni o'zgartirish\n\n"
+        "<b>Kerakli komandalar:</b>\n"
+        "• /start\n"
+        "• /help\n"
+        "• /panel admin uchun\n"
+        "• /barber barber panel uchun\n\n"
         "Pastdagi menyudan kerakli bo'limni tanlang."
+    )
+
+
+def help_text() -> str:
+    return (
+        "<b>Botdan foydalanish yo'riqnomasi</b>\n"
+        "━━━━━━━━━━━━━━\n"
+        "<b>Mijoz sifatida:</b>\n"
+        "1. /start yuboring va ro'yxatdan o'ting\n"
+        "2. ✂️ Navbat olish ni bosing\n"
+        "3. Xizmat, usta, sana va vaqtni tanlang\n"
+        "4. Bronni tasdiqlang\n"
+        "5. 30 daqiqa oldin eslatma olasiz\n\n"
+        "<b>AI tavsiya:</b>\n"
+        "1. 🤖 AI style tavsiya ni bosing\n"
+        "2. Selfie yuboring\n"
+        "3. Savollarga javob bering\n"
+        "4. 3-4 ta haircut tavsiya va bron tugmasini olasiz\n\n"
+        "<b>Barber sifatida:</b>\n"
+        "1. 💼 Sartarosh bo'lish ni bosing\n"
+        "2. Yo'nalish, tajriba, telefon va profil rasmini yuboring\n"
+        "3. Admin tasdiqlagach /barber ishlaydi\n"
+        "4. ⚙️ Sozlamalar bo'limidan ish vaqti, tanaffus, dam olish kunlari va profilingizni tahrir qilasiz\n\n"
+        "<b>Admin sifatida:</b>\n"
+        "• /panel orqali dashboard, bronlar, mijozlar va barber arizalarni boshqarasiz"
+    )
+
+
+def barber_panel_intro_text(barber_name: str) -> str:
+    return (
+        f"<b>{barber_name} uchun barber panel</b>\n"
+        "━━━━━━━━━━━━━━\n"
+        "Bu panel orqali siz:\n"
+        "• bugungi bronlarni ko'rasiz\n"
+        "• mijozlar kelishidan oldin signal xabar olasiz\n"
+        "• ish vaqtingizni o'zgartirasiz\n"
+        "• tanaffus va dam olish kunlarini belgilaysiz\n"
+        "• telefon va bio'ni yangilaysiz\n\n"
+        "Asosiy bo'limlar pastdagi tugmalarda."
     )
 
 

@@ -11,6 +11,7 @@ from app.database.repository import Repository
 from app.keyboards.inline import local_barber_settings_keyboard
 from app.keyboards.reply import barber_panel_keyboard, main_menu_keyboard
 from app.states.barber_local import LocalBarberSettingsStates
+from app.ui import barber_panel_intro_text
 from app.utils import format_datetime_uz, format_money, now_local, parse_time_range
 
 
@@ -118,6 +119,7 @@ def get_local_barber_router(repository: Repository, settings) -> Router:
     async def barber_entry(message: Message) -> None:
         barber = await _require_barber(message)
         if barber is not None:
+            await message.answer(barber_panel_intro_text(barber["name"]), reply_markup=barber_panel_keyboard())
             await _show_dashboard(message, barber)
 
     @router.message(F.text == "📈 Dashboard")

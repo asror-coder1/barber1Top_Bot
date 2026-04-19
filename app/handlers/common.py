@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 
 from aiogram import F, Router
-from aiogram.filters import CommandStart
+from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Contact, Message
 
@@ -17,7 +17,7 @@ from app.states.availability import AvailabilityStates
 from app.states.booking import BookingStates
 from app.states.recommendation import RecommendationStates
 from app.states.review import ReviewStates
-from app.ui import barber_card, main_menu_hint, price_card, send_optional_sticker, welcome_text
+from app.ui import barber_card, help_text, main_menu_hint, price_card, send_optional_sticker, welcome_text
 from app.utils import format_money
 
 
@@ -96,6 +96,12 @@ def get_common_router(repository: Repository, settings: Settings) -> Router:
 
         shop_name = await _shop_name()
         await message.answer(welcome_text(shop_name), reply_markup=main_menu_keyboard())
+
+    @router.message(Command("help"))
+    async def help_command(message: Message) -> None:
+        await _register_user(message)
+        await send_optional_sticker(message, settings.start_sticker_id)
+        await message.answer(help_text(), reply_markup=main_menu_keyboard())
 
     @router.message(ContactStates.waiting_for_name, F.text)
     async def save_name(message: Message, state: FSMContext) -> None:

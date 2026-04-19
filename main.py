@@ -45,6 +45,7 @@ async def main() -> None:
     await bot.set_my_commands(
         [
             BotCommand(command="start", description="Asosiy menyu"),
+            BotCommand(command="help", description="Foydalanish yo'riqnomasi"),
             BotCommand(command="panel", description="Admin panel"),
             BotCommand(command="bookings", description="Bugungi navbatlar"),
             BotCommand(command="customers", description="Mijozlar"),
