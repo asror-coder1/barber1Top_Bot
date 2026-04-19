@@ -239,10 +239,17 @@ def get_admin_router(repository: Repository, settings: Settings) -> Router:
         await message.answer(await _render_barber_applications_text(), reply_markup=back_to_panel_keyboard())
         applications = await repository.list_pending_barber_applications()
         for item in applications:
-            await message.answer(
-                f"Ariza #{item['id']} ni ko'rib chiqing.",
-                reply_markup=barber_application_admin_keyboard(item["id"]),
-            )
+            if item.get("photo_file_id"):
+                await message.answer_photo(
+                    photo=item["photo_file_id"],
+                    caption=f"Ariza #{item['id']} ni ko'rib chiqing.",
+                    reply_markup=barber_application_admin_keyboard(item["id"]),
+                )
+            else:
+                await message.answer(
+                    f"Ariza #{item['id']} ni ko'rib chiqing.",
+                    reply_markup=barber_application_admin_keyboard(item["id"]),
+                )
 
     @router.message(Command("revenue"))
     async def revenue(message: Message) -> None:
@@ -322,10 +329,17 @@ def get_admin_router(repository: Repository, settings: Settings) -> Router:
         await callback.message.edit_text(await _render_barber_applications_text(), reply_markup=back_to_panel_keyboard())
         applications = await repository.list_pending_barber_applications()
         for item in applications:
-            await callback.message.answer(
-                f"Ariza #{item['id']} ni ko'rib chiqing.",
-                reply_markup=barber_application_admin_keyboard(item["id"]),
-            )
+            if item.get("photo_file_id"):
+                await callback.message.answer_photo(
+                    photo=item["photo_file_id"],
+                    caption=f"Ariza #{item['id']} ni ko'rib chiqing.",
+                    reply_markup=barber_application_admin_keyboard(item["id"]),
+                )
+            else:
+                await callback.message.answer(
+                    f"Ariza #{item['id']} ni ko'rib chiqing.",
+                    reply_markup=barber_application_admin_keyboard(item["id"]),
+                )
         await callback.answer()
 
     @router.callback_query(F.data.startswith("adm_barber_approve:"))

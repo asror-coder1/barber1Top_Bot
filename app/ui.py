@@ -52,7 +52,8 @@ def barber_card(barber: dict) -> str:
     return (
         f"<b>👨‍🦱 {barber['name']}</b>\n"
         f"Yo'nalishi: {barber['specialty']}\n"
-        f"Tajriba: {barber['experience_years']} yil"
+        f"Tajriba: {barber['experience_years']} yil\n"
+        f"Telefon: {barber.get('phone') or '-'}"
     )
 
 

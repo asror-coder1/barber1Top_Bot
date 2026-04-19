@@ -104,15 +104,20 @@ def get_local_barber_router(repository: Repository, settings) -> Router:
         barber = await _require_barber(message)
         if barber is None:
             return
-        await message.answer(
-            (
-                f"<b>{barber['name']}</b>\n"
-                f"Yo'nalish: {barber['specialty']}\n"
-                f"Tajriba: {barber['experience_years']} yil\n"
-                f"Telefon: {barber['phone'] or '-'}\n"
-                f"Bio: {barber['bio'] or '-'}"
-            ),
-            reply_markup=barber_panel_keyboard(),
+        text = (
+            f"<b>{barber['name']}</b>\n"
+            f"Yo'nalish: {barber['specialty']}\n"
+            f"Tajriba: {barber['experience_years']} yil\n"
+            f"Telefon: {barber['phone'] or '-'}\n"
+            f"Bio: {barber['bio'] or '-'}"
         )
+        if barber.get("photo_file_id"):
+            await message.answer_photo(
+                photo=barber["photo_file_id"],
+                caption=text,
+                reply_markup=barber_panel_keyboard(),
+            )
+        else:
+            await message.answer(text, reply_markup=barber_panel_keyboard())
 
     return router

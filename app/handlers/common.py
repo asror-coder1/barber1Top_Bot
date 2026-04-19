@@ -149,7 +149,14 @@ def get_common_router(repository: Repository, settings: Settings) -> Router:
         await _register_user(message)
         barbers = await repository.list_barbers()
         for barber in barbers:
-            await message.answer(barber_card(barber), reply_markup=barber_action_keyboard(barber["id"]))
+            if barber.get("photo_file_id"):
+                await message.answer_photo(
+                    photo=barber["photo_file_id"],
+                    caption=barber_card(barber),
+                    reply_markup=barber_action_keyboard(barber["id"]),
+                )
+            else:
+                await message.answer(barber_card(barber), reply_markup=barber_action_keyboard(barber["id"]))
 
     @router.callback_query(F.data.startswith("prefill_barber:"))
     async def prefill_barber(callback: CallbackQuery, state: FSMContext) -> None:
